@@ -1,7 +1,7 @@
-const DummyReader = require('./readers/dummy')
-const MongoDbHandler = require('./handlers/mongodb')
 const Observable = require('rxjs')
 const { concatMap } = require('rxjs/operators')
+const ZeroMqReader = require('./readers/zeromq')
+const MongoDbHandler = require('./handlers/mongodb')
 
 main().catch(error => {
   console.error(error)
@@ -9,9 +9,12 @@ main().catch(error => {
 })
 
 async function main() {
-  const reader = new DummyReader()
+  // Instantiate reader and handler
+  const reader = new ZeroMqReader()
   const handler = new MongoDbHandler()
 
+  // Connect them together
+  // (using a queue for async operations from concatMap)
   Observable.fromEvent(reader, 'operation')
     .pipe(
       concatMap(async op => {
@@ -20,6 +23,11 @@ async function main() {
     )
     .subscribe()
 
+  // Generate a fake stream of operations coming from ZeroMQ
+  reader.generateDummyLoad()
+
+  // Start the handler first
   await handler.start()
+  // And then the reader once everything is ready
   await reader.start()
 }
