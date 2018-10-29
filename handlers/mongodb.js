@@ -44,7 +44,7 @@ module.exports = class MongoDbHandler {
         )
       }
     } else {
-      throw new Error('MongoDB adaptor not ready, must call start() first')
+      throw new Error('MongoDB handler not ready, must call start() first')
     }
   }
 }
