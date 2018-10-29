@@ -1,0 +1,44 @@
+{
+  "name": "statemirror",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresberrios/statemirror.git"
+  },
+  "keywords": [
+    "eosio",
+    "eos"
+  ],
+  "author": "Andres Berrios <andres.berrios.j@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andresberrios/statemirror/issues"
+  },
+  "homepage": "https://github.com/andresberrios/statemirror#readme",
+  "eslintConfig": {
+    "extends": "standard",
+    "rules": {
+      "space-before-function-paren": [
+        "error",
+        "never"
+      ]
+    }
+  },
+  "dependencies": {
+    "mongodb": "^3.1.8",
+    "zeromq": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
