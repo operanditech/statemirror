@@ -32,6 +32,7 @@
   "dependencies": {
     "mongodb": "^3.1.8",
     "rxjs": "^6.3.3",
+    "ws": "^6.1.0",
     "zeromq": "^5.1.0"
   },
   "devDependencies": {
