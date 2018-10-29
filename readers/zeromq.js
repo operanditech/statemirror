@@ -5,9 +5,10 @@ const Observable = require('rxjs')
 const { concatMap } = require('rxjs/operators')
 
 module.exports = class ZeroMqReader extends EventEmitter {
-  constructor(connectionUrl = 'tcp://127.0.0.1:3000') {
+  constructor(connectionUrl = 'tcp://127.0.0.1:3000', bind = true) {
     super()
     this.connectionUrl = connectionUrl
+    this.bind = bind
     this.socket = zmq.socket('pull')
   }
   start() {
@@ -18,16 +19,26 @@ module.exports = class ZeroMqReader extends EventEmitter {
         throw new Error(`Malformed operation received: ${msg.toString()}`)
       }
     })
-    this.socket.connect(this.connectionUrl)
-    console.log('ZeroMQ reader connection successful')
+    if (this.bind) {
+      this.socket.bindSync(this.connectionUrl)
+      console.log('ZeroMQ reader socket bound successfully')
+    } else {
+      this.socket.connect(this.connectionUrl)
+      console.log('ZeroMQ reader connected successfully')
+    }
   }
   stop() {
     this.socket.close()
   }
   generateDummyLoad() {
     const out = zmq.socket('push')
-    out.bindSync(this.connectionUrl)
-    console.log('ZeroMQ dummy data generator bound successfully')
+    if (this.bind) {
+      out.connect(this.connectionUrl)
+      console.log('ZeroMQ dummy data generator connected successfully')
+    } else {
+      out.bindSync(this.connectionUrl)
+      console.log('ZeroMQ dummy data generator socket bound successfully')
+    }
 
     const reader = new DummyReader()
     Observable.fromEvent(reader, 'operation')
