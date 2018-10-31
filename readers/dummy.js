@@ -1,6 +1,6 @@
 const data = [
   {
-    action: 'emplace',
+    type: 'EMPLACE',
     code: 'wings',
     scope: 'wings',
     table: 'users',
@@ -8,7 +8,7 @@ const data = [
     data: { name: 'Andres', age: 28 }
   },
   {
-    action: 'emplace',
+    type: 'EMPLACE',
     code: 'wings',
     scope: 'wings',
     table: 'users',
@@ -16,7 +16,7 @@ const data = [
     data: { name: 'Mario' }
   },
   {
-    action: 'modify',
+    type: 'MODIFY',
     code: 'wings',
     scope: 'wings',
     table: 'users',
@@ -28,7 +28,7 @@ const data = [
     }
   },
   {
-    action: 'emplace',
+    type: 'EMPLACE',
     code: 'wings',
     scope: 'wings',
     table: 'users',
@@ -39,7 +39,7 @@ const data = [
     }
   },
   {
-    action: 'erase',
+    type: 'ERASE',
     code: 'wings',
     scope: 'wings',
     table: 'users',

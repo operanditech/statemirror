@@ -14,7 +14,10 @@ module.exports = class ZeroMqReader extends EventEmitter {
   start() {
     this.socket.on('message', msg => {
       try {
-        this.emit('operation', JSON.parse(msg.toString()))
+        this.emit(
+          'operation',
+          ZeroMqReader.formatOperation(JSON.parse(msg.toString()))
+        )
       } catch (error) {
         throw new Error(`Malformed operation received: ${msg.toString()}`)
       }
@@ -29,6 +32,28 @@ module.exports = class ZeroMqReader extends EventEmitter {
   }
   stop() {
     this.socket.close()
+  }
+  static formatOperation(op) {
+    op.type =
+      {
+        CREATE: 'EMPLACE',
+        REMOVE: 'ERASE'
+      }[op.op_type] || op.op_type
+    delete op.op_type
+
+    if (typeof op.id !== 'undefined') {
+      op.primary_key = op.id
+      delete op.id
+    }
+
+    if (op.value) {
+      op.data = op.value
+      delete op.value
+    }
+
+    delete op.payer
+
+    return op
   }
   generateDummyLoad() {
     const out = zmq.socket('push')
