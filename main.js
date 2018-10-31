@@ -11,7 +11,7 @@ main().catch(error => {
 
 async function main() {
   // Instantiate reader and handlers
-  const reader = new ZeroMqReader()
+  const reader = new ZeroMqReader(undefined, false)
   const dbHandler = new MongoDbHandler()
   const wsHandler = new WebsocketHandler()
 
@@ -31,5 +31,5 @@ async function main() {
   await reader.start()
 
   // Generate a fake stream of operations coming from ZeroMQ
-  reader.generateDummyLoad()
+  // reader.generateDummyLoad()
 }
