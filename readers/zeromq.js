@@ -46,8 +46,10 @@ module.exports = class ZeroMqReader extends EventEmitter {
       delete op.id
     }
 
-    if (op.value) {
-      op.data = op.value
+    if (typeof op.value !== 'undefined') {
+      if (op.value !== null) {
+        op.data = op.value
+      }
       delete op.value
     }
 
