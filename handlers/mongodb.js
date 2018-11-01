@@ -54,6 +54,8 @@ module.exports = class MongoDbHandler {
       await collection.deleteOne({
         _id: { primary_key: operation.primary_key, scope: operation.scope }
       })
+    } else if (operation.type === 'DROP_SCOPE') {
+      await collection.deleteMany({ '_id.scope': operation.scope })
     } else {
       throw new TypeError(`Unrecognized operation type '${operation.type}'`)
     }

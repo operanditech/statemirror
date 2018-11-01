@@ -36,8 +36,12 @@ module.exports = class ZeroMqReader extends EventEmitter {
   static formatOperation(op) {
     op.type =
       {
-        CREATE: 'EMPLACE',
-        REMOVE: 'ERASE'
+        ROW_CREATE: 'EMPLACE',
+        ROW_MODIFY: 'MODIFY',
+        ROW_REMOVE: 'ERASE',
+        REV_COMMIT: 'COMMIT',
+        REV_UNDO: 'UNDO',
+        TABLE_REMOVE: 'DROP_SCOPE'
       }[op.op_type] || op.op_type
     delete op.op_type
 
