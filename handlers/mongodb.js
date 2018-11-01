@@ -25,7 +25,6 @@ module.exports = class MongoDbHandler {
       throw new Error('MongoDB handler not ready, must call start() first')
     }
     if (['REV_COMMIT', 'REV_UNDO'].includes(operation.type)) {
-      // TODO Handle these properly
       if (this.verbose) {
         console.log(`Ignoring operation of type ${operation.type}`)
       }
@@ -64,5 +63,17 @@ module.exports = class MongoDbHandler {
     else {
       throw new TypeError(`Unrecognized operation type '${operation.type}'`)
     }
+  }
+  get(id) {
+    const colName = `${id.code}_${id.table}`
+    let collection
+    if (this.collections[colName]) {
+      collection = this.collections[colName]
+    } else {
+      collection = this.db.collection(colName)
+    }
+    return collection.findOne({
+      _id: { primary_key: id.primary_key, scope: id.scope }
+    })
   }
 }
