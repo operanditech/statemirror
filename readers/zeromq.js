@@ -34,11 +34,7 @@ module.exports = class ZeroMqReader extends EventEmitter {
     this.socket.close()
   }
   static formatOperation(op) {
-    op.type =
-      {
-        CREATE: 'EMPLACE',
-        REMOVE: 'ERASE'
-      }[op.op_type] || op.op_type
+    op.type = op.op_type
     delete op.op_type
 
     if (typeof op.id !== 'undefined') {
