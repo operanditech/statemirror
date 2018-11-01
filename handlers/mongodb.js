@@ -24,7 +24,7 @@ module.exports = class MongoDbHandler {
     if (!this.ready) {
       throw new Error('MongoDB handler not ready, must call start() first')
     }
-    if (['REV_COMMIT', 'REV_UNDO'].includes(operation.type)) {
+    if (['SQUASH', 'COMMIT', 'UNDO'].includes(operation.type)) {
       if (this.verbose) {
         console.log(`Ignoring operation of type ${operation.type}`)
       }
@@ -40,27 +40,23 @@ module.exports = class MongoDbHandler {
       collection = this.collections[colName] = this.db.collection(colName)
       await collection.createIndex({ '_id.scope': 1, '_id.primary_key': 1 })
     }
-    if (operation.type === 'ROW_CREATE') {
+    if (operation.type === 'EMPLACE') {
       await collection.insertOne({
         _id: { primary_key: operation.primary_key, scope: operation.scope },
         ...operation.data
       })
-    } else if (operation.type === 'ROW_MODIFY') {
+    } else if (operation.type === 'MODIFY') {
       await collection.replaceOne(
         { _id: { primary_key: operation.primary_key, scope: operation.scope } },
         operation.data
       )
-    } else if (operation.type === 'ROW_REMOVE') {
+    } else if (operation.type === 'ERASE') {
       await collection.deleteOne({
         _id: { primary_key: operation.primary_key, scope: operation.scope }
       })
-    }
-    else if(operation.type === 'TABLE_REMOVE') {
-      await collection.deleteMany({
-        "_id.scope": operation.scope
-      })
-    }
-    else {
+    } else if (operation.type === 'DROP_SCOPE') {
+      await collection.deleteMany({ '_id.scope': operation.scope })
+    } else {
       throw new TypeError(`Unrecognized operation type '${operation.type}'`)
     }
   }
