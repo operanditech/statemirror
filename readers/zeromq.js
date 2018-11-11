@@ -41,6 +41,7 @@ module.exports = class ZeroMqReader extends EventEmitter {
         ROW_REMOVE: 'ERASE',
         REV_COMMIT: 'COMMIT',
         REV_UNDO: 'UNDO',
+        TRX_ACTION: 'EMPLACE',
         TABLE_REMOVE: 'DROP_SCOPE'
       }[op.op_type] || op.op_type
     delete op.op_type
