@@ -1,11 +1,16 @@
 const MongoClient = require('mongodb').MongoClient
 
 module.exports = class MongoDbHandler {
-  constructor(dbUrl = 'mongodb://localhost:27017', dbName = 'statemirror') {
+  constructor(
+    dbUrl = 'mongodb://localhost:27017',
+    dbName = 'statemirror',
+    verbose = false
+  ) {
     this.url = dbUrl
     this.dbName = dbName
     this.ready = false
     this.collections = {}
+    this.verbose = verbose
   }
   async start() {
     this.client = await MongoClient.connect(

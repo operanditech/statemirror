@@ -5,7 +5,7 @@ const Observable = require('rxjs')
 const { concatMap } = require('rxjs/operators')
 
 module.exports = class ZeroMqReader extends EventEmitter {
-  constructor(connectionUrl = 'tcp://127.0.0.1:3000', bind = true) {
+  constructor(connectionUrl = 'tcp://127.0.0.1:3000', bind = false) {
     super()
     this.connectionUrl = connectionUrl
     this.bind = bind
