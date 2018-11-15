@@ -3,6 +3,8 @@
 This is a receiver library for reading and handling EOSIO state database
 operations from the nodeos statetrack_plugin.
 
+This library is under active development and is currently a very early version.
+
 Currently it implements a ZeroMQ reader to connect to the statetrack_plugin
 and two operation handlers:
 
